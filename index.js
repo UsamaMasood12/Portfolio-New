@@ -139,3 +139,17 @@ function checkUpperCase(value) {
 const CONTACT_FORM = document.querySelector('form');
 const EMAIL_INPUT = CONTACT_FORM.querySelector('#contact-form-email');
 const INVALID_MESSAGE = document.querySelector('.contact-form-invalid-email');
+function validateEmail(event) {
+    const EMAIL_VALUE = EMAIL_INPUT.value;
+    const CHECK_UPPERCASE = checkUpperCase(EMAIL_VALUE);
+    if (!CHECK_UPPERCASE) {
+      EMAIL_INPUT.classList.remove('invalid');
+      INVALID_MESSAGE.classList.remove('invalid');
+      return;
+    }
+    event.preventDefault();
+    EMAIL_INPUT.classList.add('invalid');
+    INVALID_MESSAGE.classList.add('invalid');
+  }
+  EMAIL_INPUT.addEventListener('change', validateEmail);
+  CONTACT_FORM.addEventListener('submit', validateEmail);
