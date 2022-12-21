@@ -128,3 +128,14 @@ document.querySelector('.project-details-popup-window-cancel').addEventListener(
 document.querySelector('.main-project-button-container button').addEventListener('click', () => {
   ViewHideProject(PROJECTS_INFO[0]);
 });
+function checkUpperCase(value) {
+  const tester = /[A-Z]/;
+  if (!tester.test(value)) {
+    return false;
+  }
+  return true;
+}
+
+const CONTACT_FORM = document.querySelector('form');
+const EMAIL_INPUT = CONTACT_FORM.querySelector('#contact-form-email');
+const INVALID_MESSAGE = document.querySelector('.contact-form-invalid-email');
