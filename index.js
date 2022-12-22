@@ -153,3 +153,42 @@ function validateEmail(event) {
 }
 EMAIL_INPUT.addEventListener('change', validateEmail);
 CONTACT_FORM.addEventListener('submit', validateEmail);
+function localStorageAvailable(type) {
+  let storage;
+  try {
+    storage = window[type];
+    const x = '__storage_test__';
+    storage.setItem(x, x);
+    storage.removeItem(x);
+    return true;
+  } catch (e) {
+    return e instanceof DOMException && (e.code === 22 || e.code === 1014 || e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED') && (storage && storage.length !== 0);
+  }
+}
+
+const CONTACT_FORM_FULLNAME = document.querySelector('#contact-form-name');
+const CONTACT_FORM_EMAIL = document.querySelector('#contact-form-email');
+const CONTACT_FORM_MESSAGE = document.querySelector('#contact-form-message');
+
+if (localStorageAvailable('localStorage')) {
+  const SetFormValues = () => {
+    const FORM_DATA = {
+      name: CONTACT_FORM_FULLNAME.value,
+      email: CONTACT_FORM_EMAIL.value,
+      message: CONTACT_FORM_MESSAGE.value,
+    };
+    localStorage.setItem('formData', JSON.stringify(FORM_DATA));
+  };
+
+  CONTACT_FORM_FULLNAME.addEventListener('change', SetFormValues);
+  CONTACT_FORM_EMAIL.addEventListener('change', SetFormValues);
+  CONTACT_FORM_MESSAGE.addEventListener('change', SetFormValues);
+}
+const GetContactLocalData = () => {
+  const formData = JSON.parse(localStorage.getItem('formData'));
+  if (formData === null) return;
+  CONTACT_FORM_FULLNAME.value = formData.name;
+  CONTACT_FORM_EMAIL.value = formData.email;
+  CONTACT_FORM_MESSAGE.value = formData.message;
+};
+document.addEventListener('DOMContentLoaded', GetContactLocalData);
