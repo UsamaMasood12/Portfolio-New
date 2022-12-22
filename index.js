@@ -185,5 +185,12 @@ if(localStorageAvailable('localStorage')) {
   CONTACT_FORM_EMAIL.addEventListener('change', SetFormValues);
   CONTACT_FORM_MESSAGE.addEventListener('change', SetFormValues);
 }
-
+const GetContactLocalData = () => {
+  let formData = JSON.parse(localStorage.getItem('formData'));
+  if(formData === null) return;
+  CONTACT_FORM_FULLNAME.value = formData.name;
+  CONTACT_FORM_EMAIL.value = formData.email;
+  CONTACT_FORM_MESSAGE.value = formData.message;
+};
+document.addEventListener('DOMContentLoaded', GetContactLocalData);
 
